@@ -1,0 +1,97 @@
+{
+  "name": "vite-electron-react-scaffold",
+  "version": "0.0.0",
+  "main": "dist/main/build.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently -n=react,ele -c=green,blue \"npm run dev:react\" \"npm run dev:ele\"",
+    "dev:react": "vite",
+    "dev:ele": "node script/build --env=development --watch",
+    "build:react": "vite build",
+    "build:ele": "node script/build --env=production",
+    "build": "npm run build:react && npm run build:ele && electron-builder",
+    "lint": "eslint src --ext .ts,.js,.tsx,.js --fix"
+  },
+  "build": {
+    "appId": "xxx@gmail.com",
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "files": [
+      "!node_modules",
+      "dist/main/**",
+      "dist/render/**"
+    ],
+    "mac": {
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "electron-store": "^8.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "@vitejs/plugin-react": "^1.0.7",
+    "chalk": "4.1.0",
+    "concurrently": "^6.4.0",
+    "electron": "^16.0.4",
+    "electron-builder": "^22.14.5",
+    "electron-connect": "^0.6.3",
+    "esbuild-loader": "^2.16.0",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
+    "ora": "5.0.0",
+    "prettier": "^2.5.1",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.0",
+    "wait-on": "^6.0.0",
+    "webpack": "^5.65.0"
+  }
+}
